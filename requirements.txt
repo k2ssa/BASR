@@ -1,0 +1,11 @@
+# Direct dependencies observed in the local Python 3.10 environment.
+# Local torch is a nightly CUDA build; use a compatible torch distribution.
+numpy==2.2.6
+pandas==2.3.3
+scipy==1.15.3
+scikit-learn==1.7.2
+torch>=2.6
+openai==2.32.0
+tqdm==4.67.3
+PyYAML==6.0.3
+transformers==5.9.0

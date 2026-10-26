@@ -1,0 +1,48 @@
+# Credentials
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# Python environment/build/cache
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+*.egg-info/
+build/
+dist/
+.pytest_cache/
+.uv-cache/
+.uv-task-cache/
+
+# Data, pretrained models, inference caches and experiment outputs
+/data/
+/outputs/
+/model/
+/models/
+/downloads/
+/tmp/
+*.pt
+*.pth
+*.bin
+*.safetensors
+*.onnx
+*.npy
+*.npz
+*.mat
+*.csv
+*.jsonl
+*.zip
+*.rar
+*.ipynb
+
+# Local tools/editors
+.codex/
+.agents/
+.codex_artifacts/
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db

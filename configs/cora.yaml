@@ -1,0 +1,61 @@
+project_root: .
+dataset: Cora
+data_root: data/processed
+output_root: outputs/llm_anemone
+embedding:
+  base_url: http://localhost:8000/v1
+  api_key: EMPTY
+  model: /models/bge-m3-en-v1.5
+  tokenizer: model/bge-m3-en-v1.5
+  batch_size: 8
+  max_tokens: 511
+router:
+  method: adaptive_internal
+  budget_ratio: 0.3
+  min_sentence_chars: 12
+  sentence_fraction: 0.2
+  within_weight: 0.65
+  intra_weight: 0.7
+llm:
+  mode: live
+  version: v9
+  output_tag: cora_v9_deepseek_v4_flash_official_20260809
+  provider: deepseek
+  base_url: https://api.deepseek.com
+  model: deepseek-v4-flash
+  thinking: false
+  json_mode: true
+  retry_errors_on_resume: true
+  concurrency: 8
+  max_neighbors: 5
+  neighbor_text_chars: 300
+  max_tokens: 512
+  max_tokens_schedule:
+  - 512
+  - 1024
+  - 2048
+  retries: 3
+attribute:
+  fusion: weighted
+  router_weight: 0.0
+  semantic_change_weight: 0.9
+  neighbor_gain_weight: 0.1
+anemone:
+  score_file: null
+  score_column: anemone_score
+  seed: 1
+  device: auto
+  epochs: 100
+  patience: 100
+  batch_size: 300
+  embedding_dim: 64
+  subgraph_size: 4
+  eval_rounds: 256
+  alpha: 0.8
+  lr: 0.001
+  weight_decay: 0.0
+  restart_prob: 0.9
+  feature_normalization: official-row
+  readout: avg
+  negative_patch: 1
+  negative_context: 1

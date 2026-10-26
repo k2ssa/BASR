@@ -1,0 +1,23 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "bars-gad"
+version = "0.1.0"
+description = "Budget-aware sentence routing, selective LLM repair, and ANEMONE graph anomaly detection"
+readme = "README.md"
+requires-python = ">=3.10"
+dynamic = ["dependencies"]
+
+[project.scripts]
+bars = "llm_anemone.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+llm_anemone = ["prompts/*.yaml"]
+
+[tool.setuptools.dynamic]
+dependencies = {file = ["requirements.txt"]}

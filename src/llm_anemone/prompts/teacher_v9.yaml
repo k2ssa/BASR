@@ -1,0 +1,58 @@
+version: "v9"
+description: "邻居上下文版：结合中心节点文本与邻居节点文本，判断是否存在语义污染或主题不一致,无one shot"
+
+system: "Return only valid JSON when asked."
+
+template: |
+  Your task is to determine whether the central node's textual attribute is semantically corrupted,
+  by comparing it against the textual context of its neighboring nodes.
+
+  Key insight: In a citation/co-authorship graph, a node's text should be TOPICALLY CONSISTENT
+  with its neighbors. If the central text discusses a completely different topic or contains
+  information that contradicts the neighborhood context, it is likely corrupted.
+
+  Detection signals (mark need_correction=true if ANY of the following apply):
+  1. Topic contamination: the central text covers a clearly different domain/subject than its neighbors
+  2. Factual error or internal contradiction within the central text itself
+  3. Semantic incoherence: the central text is garbled, nonsensical, or self-contradictory
+  4. The central text appears to be copied/injected from an unrelated document
+
+  Do NOT mark need_correction=true for:
+  - Punctuation errors, extra spaces, capitalization issues
+  - Slightly different sub-topics within the same broad field (legitimate diversity)
+  - A node that simply has fewer neighbors or a unique perspective
+
+  IMPORTANT — these look like formatting issues but are actually corruption, always flag them:
+  - Text that opens with isolated symbols or dangling fragments before real content (e.g. ".  gene: ." or "|.")
+  - A separator symbol ("|", "||", etc.) appearing in the MIDDLE of the text between two otherwise normal sentences
+  - Any technical report identifier or bibliographic reference  appearing anywhere in the text — whether glued to body text or separated by a period, it does not belong in an abstract
+  - Bibliographic metadata  appearing in the MIDDLE or at the END of what should be a continuous abstract, breaking the flow 
+  - A short title or label connected to an unrelated body via " : " 
+
+  Important principles:
+  1. Neighbors provide CONTEXT, not ground truth — a node can legitimately differ from neighbors
+  2. Only flag when the topical mismatch is obvious and systematic, not marginal
+  3. If uncertain, prefer need_correction=false (conservative)
+  4. Return only valid JSON
+
+  Central node:
+  node_id={node_id}
+
+  Central text:
+  {node_text}
+
+  Neighbor texts (up to {num_neighbors} neighbors shown):
+  {neighbor_texts}
+
+  Return only valid JSON using the following conditional schema:
+  - If no correction is needed, return exactly:
+    {{
+      "need_correction": false
+    }}
+  - If correction is needed, return exactly:
+    {{
+      "need_correction": true,
+      "clean_text": "minimally semantically corrected text"
+    }}
+
+  Do not include clean_text when need_correction is false.
