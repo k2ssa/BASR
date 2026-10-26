@@ -69,8 +69,10 @@ def build_parser() -> argparse.ArgumentParser:
     )
     parser.add_argument(
         "--train-anemone",
+        "--train-graph",
+        dest="train_anemone",
         action="store_true",
-        help="Force a fresh ANEMONE training run instead of loading an existing score CSV",
+        help="Train the graph branch instead of loading an existing score CSV",
     )
     return parser
 
